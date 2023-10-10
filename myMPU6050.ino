@@ -23,9 +23,10 @@ void setup() {
 
 void loop() {
   readAccelData();  // obtain accl_x, accl_y and accl_z;
-  // calculate accelerometer roll and pitch angles
-  accAngle_x = (atan(accl_y / sqrt(pow(accl_x, 2) + pow(accl_z, 2))) * 180 / PI) - accOffset_x; // apply offsets from initial calibration function
-  accAngle_y = (atan(-1 * accl_x / sqrt(pow(accl_y, 2) + pow(accl_z, 2))) * 180 / PI) - accOffset_y; 
+  getAcclAngles();   // calculate accelerometer inclination angles for gyro drift correction
+   // apply calibration offsets
+  accAngle_x -= accOffset_x;
+  accAngle_y -= accOffset_y; 
   
   readGyroData();  // obtain gyro_x, gyro_y and gyro_z;
   // apply calibration offsets
@@ -67,8 +68,9 @@ void calibrate_IMU() {
   for(int i = 0; i < avgLen; i++) {
     readAccelData();    // obtain accl_x, accl_y and accl_z;
     // accumulate readings 
-    accOffset_x += atan((accl_y) / sqrt(pow((accl_x), 2) + pow((accl_z), 2))) * 180 / PI;
-    accOffset_y += atan(-1 * (accl_x) / sqrt(pow((accl_y), 2) + pow((accl_z), 2))) * 180 / PI;
+    getAcclAngles();
+    accOffset_x += accAngle_x;
+    accOffset_y += accAngle_y;
   }
   //calculate the averaged accelerator offsets
   accOffset_x = accOffset_x / avgLen;
@@ -119,4 +121,10 @@ void readGyroData() {
   gyro_x = (Wire.read() << 8 | Wire.read()) / gyroScaleFactor; 
   gyro_y = (Wire.read() << 8 | Wire.read()) / gyroScaleFactor;
   gyro_z = (Wire.read() << 8 | Wire.read()) / gyroScaleFactor;
+}
+
+
+void getAcclAngles() {  // calculate inclination angles
+   accAngle_x = atan(accl_y / sqrt(pow(accl_x, 2) + pow(accl_z, 2))) * 180 / PI;
+   accAngle_y = atan(-1 * accl_x / sqrt(pow(accl_y, 2) + pow(accl_z, 2))) * 180 / PI; 
 }
