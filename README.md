@@ -12,3 +12,9 @@ The default pins for I2C data and clock are Analog4 and Analog5 pins respectivel
 After an initial calibration the code keeps reading registers that hold accelerometer and gyroscope measurements.
 The read values are scaled, compensated with calibration values and used to calculate roll, pitch and yaw angles. 
 The measured a_x, a_y, a_z (in g) and, roll, pitch, yaw angles (in radians) are repored with the serial monitor. 
+
+MPU6050 datasheet:
+https://invensense.tdk.com/wp-content/uploads/2015/02/MPU-6000-Datasheet1.pdf
+
+Register map:
+https://invensense.tdk.com/wp-content/uploads/2015/02/MPU-6000-Register-Map1.pdf
