@@ -1,5 +1,7 @@
 # Arduino_MPU6050_controller
-Arduino code to read MPU6050 accelerometer/gyroscope sensor using I2C
+Arduino code to read MPU6050 accelerometer/gyroscope sensor data using I2C
+
+![image](https://github.com/melihaltun/Arduino_MPU6050_controller/assets/40482921/98147bce-a7b5-4a08-bed1-5d8824a82f93)
 
 This repository provides an Arduino code to communicate with MPU6050 accelerometer/gyroscope sensor module and obtain readings. 
 The source code uses Wire.h library functions to transmit and receive data using I2C bus. 
