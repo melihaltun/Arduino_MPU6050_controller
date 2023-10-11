@@ -9,7 +9,7 @@ https://www.arduino.cc/reference/en/language/functions/communication/wire/
 
 The default pins for I2C data and clock are Analog4 and Analog5 pins respectively. The module also needs 5V and GND connections
 
-![image](https://github.com/melihaltun/Arduino_MPU6050_controller/assets/40482921/72427624-37e4-4e6a-b9e9-cccf196f2f52)
+![image](https://github.com/melihaltun/Arduino_MPU6050_controller/assets/40482921/9a943675-b773-4831-911f-b620ba3fc1ab)
 
 After an initial calibration the code keeps reading registers that hold accelerometer and gyroscope measurements.
 The read values are scaled, compensated with calibration values and used to calculate roll, pitch and yaw angles. 
