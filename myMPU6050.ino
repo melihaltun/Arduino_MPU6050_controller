@@ -4,11 +4,13 @@
 const int MPU6050_addr = 0x68; // MPU6050 I2C address: 0x68 if AD0 pin is low or NC, 0x69 if AD0 is pulled high
 const float gyroScaleFactor = 131.0;
 const float ADC_range = 65536.0;
+const float acc_angle_mix = 0.04;
 float accl_x, accl_y, accl_z, gyro_x, gyro_y, gyro_z;
 float accAngle_x, accAngle_y, gyroAngle_x, gyroAngle_y, gyroAngle_z;
 float accOffset_x = 0, accOffset_y = 0, gyroOffset_x = 0, gyroOffset_y = 0, gyroOffset_z = 0;
 float roll, pitch, yaw;
 float elapsedTime, currentTime, previousTime;
+
 
 void setup() {
   Serial.begin(19200);                // serial monitor baud rate
@@ -43,8 +45,8 @@ void loop() {
   gyroAngle_y += gyro_y * elapsedTime;
   yaw += gyro_z * elapsedTime;
   //mix in accelerometer angle data to minimize drift
-  roll = 0.96 * gyroAngle_x + 0.04 * accAngle_x;
-  pitch = 0.96 * gyroAngle_y + 0.04 * accAngle_y;
+  roll = (1.0 - acc_angle_mix) * gyroAngle_x + acc_angle_mix * accAngle_x;
+  pitch = (1.0 - acc_angle_mix) * gyroAngle_y + acc_angle_mix * accAngle_y;
   
   // Print outputs
   Serial.print("ax: ");
@@ -122,7 +124,6 @@ void readGyroData() {
   gyro_y = (Wire.read() << 8 | Wire.read()) / gyroScaleFactor;
   gyro_z = (Wire.read() << 8 | Wire.read()) / gyroScaleFactor;
 }
-
 
 void getAcclAngles() {  // calculate inclination angles
    accAngle_x = atan(accl_y / sqrt(pow(accl_x, 2) + pow(accl_z, 2))) * 180 / PI;
